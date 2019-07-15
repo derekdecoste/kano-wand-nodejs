@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+
+package duelingfundamentals;
+
+// The service definition.
+service WandService {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+
+  rpc CastSpell (SpellRequest) returns (SpellReply) {}
+}
+
+message SpellRequest {
+  string name = 1;
+  string wand = 2;
+}
+
+message SpellReply {
+  string message = 1;
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}

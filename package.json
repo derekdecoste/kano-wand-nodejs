@@ -21,10 +21,13 @@
   },
   "homepage": "https://github.com/megabytemb/kano-wand-nodejs#readme",
   "dependencies": {
+    "@grpc/proto-loader": "^0.5.1",
     "@tensorflow/tfjs": "^0.14.1",
     "@tensorflow/tfjs-node": "^0.2.1",
     "async": "^2.6.1",
     "fit-curve": "^0.1.6",
+    "google-protobuf": "^3.9.0",
+    "grpc": "^1.22.2",
     "noble": "^1.9.1",
     "rxjs": "^6.3.3",
     "string-just": "0.0.2"

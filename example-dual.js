@@ -1,6 +1,22 @@
 var noble = require('noble');
 const KanoWand = require('./index')
 
+var PROTO_PATH = __dirname + '/protos/WandService.proto';
+
+var grpc = require('grpc');
+var protoLoader = require('@grpc/proto-loader');
+var packageDefinition = protoLoader.loadSync(
+    PROTO_PATH,
+    {keepCase: true,
+     longs: String,
+     enums: String,
+     defaults: true,
+     oneofs: true
+    });
+var wand_proto = grpc.loadPackageDefinition(packageDefinition).duelingfundamentals;
+
+var client = new wand_proto.WandService('localhost:50051', grpc.credentials.createInsecure());
+
 var wand1 = new KanoWand();
 var wand2 = new KanoWand();
 
@@ -23,6 +39,9 @@ noble.on('stateChange', function(state) {
               wand1.vibrate(1);
               wand1.spells.subscribe((spell) => {
                 console.log(wand1.name, spell);
+                client.castSpell({name: spell.spell, wand: "wand1"}, function(err, response) {
+                  console.log('Response from gRPC server:', response.message);
+                });
             });
           });
       });
@@ -37,6 +56,9 @@ noble.on('stateChange', function(state) {
               wand2.vibrate(1);
               wand2.spells.subscribe((spell) => {
                 console.log(wand2.name, spell);
+                client.castSpell({name: spell.spell, wand: "wand2"}, function(err, response) {
+                  console.log('Response from gRPC server:', response.message);
+                });
             });
           });
       });
