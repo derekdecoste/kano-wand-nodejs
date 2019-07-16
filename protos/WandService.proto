@@ -13,6 +13,12 @@ service WandService {
 message SpellRequest {
   string name = 1;
   string wand = 2;
+  repeated Position positions = 3;
+}
+
+message Position {
+  double x = 1;
+  double y = 2;
 }
 
 message SpellReply {

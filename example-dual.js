@@ -39,7 +39,7 @@ noble.on('stateChange', function(state) {
               wand1.vibrate(1);
               wand1.spells.subscribe((spell) => {
                 console.log(wand1.name, spell);
-                client.castSpell({name: spell.spell, wand: "wand1"}, function(err, response) {
+                client.castSpell({ name: spell.spell, wand: "wand1", positions: spell.positions.map(([x, y]) => { return {x: x, y: y} }) }, function(err, response) {
                   console.log('Response from gRPC server:', response.message);
                 });
             });
@@ -56,7 +56,7 @@ noble.on('stateChange', function(state) {
               wand2.vibrate(1);
               wand2.spells.subscribe((spell) => {
                 console.log(wand2.name, spell);
-                client.castSpell({name: spell.spell, wand: "wand2"}, function(err, response) {
+                client.castSpell({ name: spell.spell, wand: "wand2", positions: spell.positions.map(([x, y]) => { return {x: x, y: y} }) }, function(err, response) {
                   console.log('Response from gRPC server:', response.message);
                 });
             });
