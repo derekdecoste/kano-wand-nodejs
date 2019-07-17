@@ -34,10 +34,11 @@ noble.on('stateChange', function (state) {
 noble.on('discover', function (peripheral) {
   let deviceName = peripheral.advertisement.localName || "";
   if (deviceName.startsWith("Kano-Wand") && !wand1.name) {
+    wand1.name = "Wand_1 (" + deviceName + ")";
     console.log("Found wand1 with name", deviceName);
 
     peripheral.connect(function (error) {
-      wand1.init(peripheral, "Wand_1 (" + deviceName + ")")
+      wand1.init(peripheral, wand1.name)
         .then(() => {
           wand1.vibrate(kanoInfo.PATTERN.REGULAR);
           wand1.spells.subscribe((spell) => {
@@ -65,11 +66,13 @@ noble.on('discover', function (peripheral) {
     });
   }
   else if (deviceName.startsWith("Kano-Wand") && !wand2.name) {
-    noble.stopScanning();
+    wand2.name = "Wand_2 (" + deviceName + ")";
     console.log("Found wand2 with name", deviceName);
 
+    noble.stopScanning();
+
     peripheral.connect(function (error) {
-      wand2.init(peripheral, "Wand_2 (" + deviceName + ")")
+      wand2.init(peripheral, wand2.name)
         .then(() => {
           wand2.vibrate(kanoInfo.PATTERN.REGULAR, () => {
             // Vibrate again for the second wand
