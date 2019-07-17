@@ -8,12 +8,23 @@ service WandService {
   rpc SayHello (HelloRequest) returns (HelloReply) {}
 
   rpc CastSpell (SpellRequest) returns (SpellReply) {}
+
+  rpc WandMove (WandMoveRequest) returns (WandMoveReply) {}
 }
 
 message SpellRequest {
   string name = 1;
   string wand = 2;
-  repeated Position positions = 3;
+}
+
+message WandMoveRequest {
+  string wand = 1;
+  Position position = 2;
+  bool isButtonPressed = 3;
+}
+
+message WandMoveReply {
+    string message = 1;
 }
 
 message Position {

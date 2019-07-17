@@ -28,6 +28,7 @@ class Wand {
         this.resetTimeout = 0.2 // determins a quick press for wand reset (milliseconds)
         this.spells = new Subject();
         this.positions = new Subject();
+        this.onWandMove = new Subject();
     }
 
     static uInt8ToUInt16(byteA, byteB) {
@@ -185,6 +186,8 @@ class Wand {
             this.currentSpell.push([pos.x, pos.y]);
             this.positions.next([pos.x, pos.y]);
         }
+
+        this.onWandMove.next({x: pos.x, y: pos.y, isButtonPressed: this.buttonPressed});
     }
 
     reset_position(callback) {
