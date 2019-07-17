@@ -18,7 +18,7 @@ var packageDefinition = protoLoader.loadSync(
   });
 var wand_proto = grpc.loadPackageDefinition(packageDefinition).duelingfundamentals;
 
-var client = new wand_proto.WandService('localhost:60051', grpc.credentials.createInsecure());
+var client = new wand_proto.WandService('localhost:50051', grpc.credentials.createInsecure());
 
 var wand1 = new KanoWand();
 var wand2 = new KanoWand();
