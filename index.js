@@ -66,10 +66,10 @@ class Wand {
         }
     }
 
-    vibrate(pattern) {
+    vibrate(pattern, callback) {
         var vibrate = Buffer.alloc(1);
         vibrate.writeUInt8(pattern,0)
-        this.vibrateCharacteristic.write(vibrate, true);
+        this.vibrateCharacteristic.write(vibrate, true, callback);
     }
 
     init(peripheral, name) {
