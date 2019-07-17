@@ -62,6 +62,12 @@ noble.on('discover', function (peripheral) {
               }
             });
           });
+
+          setInterval(() => {
+            wand1.sendKeepAlive(() => {
+              console.log('Sent keep alive for wand1 at interval')
+            });
+          }, 1000 * 60);
         });
     });
   }
@@ -101,6 +107,12 @@ noble.on('discover', function (peripheral) {
               }
             });
           });
+
+          setInterval(() => {
+            wand2.sendKeepAlive(() => {
+              console.log('Sent keep alive for wand2 at interval')
+            });
+          }, 1000 * 60);
         });
     });
   }

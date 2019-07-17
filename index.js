@@ -21,6 +21,7 @@ class Wand {
         this.vibrateCharacteristic = null;
         this.quaternionsCharacteristic = null;
         this.quaternionsResetCharacteristic = null;
+        this.keepAliveCharacteristic = null;
         this.currentSpell = [];
         this.buttonPressed = false;
         this.timeUp = new Date();
@@ -63,6 +64,11 @@ class Wand {
                 this.logWithName("Found vibrate characteristic");
                 this.vibrateCharacteristic = characteristic;
             }
+
+            if (compareUUID(characteristic.uuid, kano.IO.KEEP_ALIVE_CHAR)) {
+                this.logWithName("Found keep alive characteristic");
+                this.keepAliveCharacteristic = characteristic;
+            }
         }
     }
 
@@ -70,6 +76,12 @@ class Wand {
         var vibrate = Buffer.alloc(1);
         vibrate.writeUInt8(pattern,0)
         this.vibrateCharacteristic.write(vibrate, true, callback);
+    }
+
+    sendKeepAlive(callback) {
+        var data = Buffer.alloc(1);
+        data.writeUInt8(1, 0)
+        this.keepAliveCharacteristic.write(data, true, callback);
     }
 
     init(peripheral, name) {
@@ -138,6 +150,9 @@ class Wand {
             this.spell = null;
         } else if (seconds < this.resetTimeout) { // not pressed
             this.reset_position();
+
+            // Send a keep alive message since a button press indicates the wand is in use
+            this.sendKeepAlive();
         } else if (this.currentSpell.length > 5) { // not pressed
             this.currentSpell = this.currentSpell.splice(5);
             let flippedPositions = [];
