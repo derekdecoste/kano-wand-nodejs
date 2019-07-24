@@ -28,8 +28,10 @@ var wand2 = new KanoWand();
 
 noble.on('stateChange', function (state) {
   if (state === 'poweredOn') {
+    console.log('[Noble] Scanning for devices...');
     noble.startScanning();
   } else {
+    console.log('[Noble] Stopping device scan due to state change to', state);
     noble.stopScanning();
   }
 });
@@ -41,6 +43,7 @@ noble.on('discover', function (peripheral) {
     console.log("Found wand1 with name", deviceName);
 
     if (wand1.name && wand2.name) {
+      console.log('[Noble] Stopping device scan since all required wands have been discovered.');
       noble.stopScanning();
     }
 
@@ -88,6 +91,7 @@ noble.on('discover', function (peripheral) {
     console.log("Found wand2 with name", deviceName);
 
     if (wand1.name && wand2.name) {
+      console.log('[Noble] Stopping device scan since all required wands have been discovered.');
       noble.stopScanning();
     }
 
