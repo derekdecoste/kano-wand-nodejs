@@ -2,6 +2,7 @@ const PROTO_PATH = __dirname + '/protos/WandService.proto';
 const WAND_1_LABEL = "wand1";
 const WAND_2_LABEL = "wand2";
 
+const config = require('./config.json');
 var noble = require('noble');
 const KanoWand = require('./index')
 const kanoInfo = require('./kano_info.json');
@@ -18,7 +19,9 @@ var packageDefinition = protoLoader.loadSync(
   });
 var wand_proto = grpc.loadPackageDefinition(packageDefinition).duelingfundamentals;
 
-var client = new wand_proto.WandService('localhost:50051', grpc.credentials.createInsecure());
+if (config.GRPC.ENABLED) {
+  var client = new wand_proto.WandService(config.GRPC.SERVER + ':' + config.GRPC.PORT, grpc.credentials.createInsecure());
+}
 
 var wand1 = new KanoWand();
 var wand2 = new KanoWand();
@@ -43,31 +46,36 @@ noble.on('discover', function (peripheral) {
           wand1.vibrate(kanoInfo.PATTERN.REGULAR);
           wand1.spells.subscribe((spell) => {
             console.log(wand1.name, spell);
-            client.castSpell({ name: spell.spell, wand: WAND_1_LABEL}, function (err, response) {
-              if (!err && response) {
-                console.log('Response to castSpell from server:', response.message);
-              } else {
-                console.error('Error response to castSpell from server:', err)
-              }
-            });
+
+            if (client) {
+              client.castSpell({ name: spell.spell, wand: WAND_1_LABEL}, function (err, response) {
+                if (!err && response) {
+                  console.log('Response to castSpell from server:', response.message);
+                } else {
+                  console.error('Error response to castSpell from server:', err)
+                }
+              });
+            }
           });
 
           wand1.onWandMove.subscribe((obj) => {
-            client.wandMove({wand: WAND_1_LABEL, position: {x: obj.x, y: obj.y}, isButtonPressed: obj.isButtonPressed}, function (err, response) {
-              if (!err && response) {
-                // Useful for debugging, but very verbose
-                //console.log('Response to wandMove from server:', response.message);
-              } else {
-                console.error('Error response to wandMove from server:', err)
-              }
-            });
+            if (client) {
+              client.wandMove({wand: WAND_1_LABEL, position: {x: obj.x, y: obj.y}, isButtonPressed: obj.isButtonPressed}, function (err, response) {
+                if (!err && response) {
+                  // Useful for debugging, but very verbose
+                  //console.log('Response to wandMove from server:', response.message);
+                } else {
+                  console.error('Error response to wandMove from server:', err)
+                }
+              });
+            }
           });
 
           setInterval(() => {
             wand1.sendKeepAlive(() => {
               console.log('Sent keep alive for wand1 at interval')
             });
-          }, 1000 * 60);
+          }, 1000 * config.WAND.KEEP_ALIVE_FREQUENCY_IN_SECONDS);
         });
     });
   }
@@ -88,31 +96,36 @@ noble.on('discover', function (peripheral) {
           });
           wand2.spells.subscribe((spell) => {
             console.log(wand2.name, spell);
-            client.castSpell({ name: spell.spell, wand: WAND_2_LABEL, positions: spell.positions.map(([x, y]) => { return { x: x, y: y } }) }, function (err, response) {
-              if (!err && response) {
-                console.log('Response to castSpell from server:', response.message);
-              } else {
-                console.error('Error response to castSpell from server:', err)
-              }
-            });
+
+            if (client) {
+              client.castSpell({ name: spell.spell, wand: WAND_2_LABEL, positions: spell.positions.map(([x, y]) => { return { x: x, y: y } }) }, function (err, response) {
+                if (!err && response) {
+                  console.log('Response to castSpell from server:', response.message);
+                } else {
+                  console.error('Error response to castSpell from server:', err)
+                }
+              });
+            }
           });
 
           wand2.onWandMove.subscribe((obj) => {
-            client.wandMove({wand: WAND_2_LABEL, position: {x: obj.x, y: obj.y}, isButtonPressed: obj.isButtonPressed}, function (err, response) {
-              if (!err && response) {
-                // Useful for debugging, but very verbose
-                //console.log('Response to wandMove from server:', response.message);
-              } else {
-                console.error('Error response to wandMove from server:', err)
-              }
-            });
+            if (client) {
+              client.wandMove({wand: WAND_2_LABEL, position: {x: obj.x, y: obj.y}, isButtonPressed: obj.isButtonPressed}, function (err, response) {
+                if (!err && response) {
+                  // Useful for debugging, but very verbose
+                  //console.log('Response to wandMove from server:', response.message);
+                } else {
+                  console.error('Error response to wandMove from server:', err)
+                }
+              });
+            }
           });
 
           setInterval(() => {
             wand2.sendKeepAlive(() => {
               console.log('Sent keep alive for wand2 at interval')
             });
-          }, 1000 * 60);
+          }, 1000 * config.WAND.KEEP_ALIVE_FREQUENCY_IN_SECONDS);
         });
     });
   }
