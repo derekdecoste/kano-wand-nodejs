@@ -36,9 +36,13 @@ noble.on('stateChange', function (state) {
 
 noble.on('discover', function (peripheral) {
   let deviceName = peripheral.advertisement.localName || "";
-  if (deviceName.startsWith("Kano-Wand") && !wand1.name) {
+  if (deviceName.startsWith("Kano-Wand") && !wand1.name && isRequestedDeviceName(config.WAND.WAND_1_DEVICE_NAME, deviceName)) {
     wand1.name = "Wand_1 (" + deviceName + ")";
     console.log("Found wand1 with name", deviceName);
+
+    if (wand1.name && wand2.name) {
+      noble.stopScanning();
+    }
 
     peripheral.connect(function (error) {
       wand1.init(peripheral, wand1.name)
@@ -79,11 +83,13 @@ noble.on('discover', function (peripheral) {
         });
     });
   }
-  else if (deviceName.startsWith("Kano-Wand") && !wand2.name) {
+  else if (deviceName.startsWith("Kano-Wand") && !wand2.name && isRequestedDeviceName(config.WAND.WAND_2_DEVICE_NAME, deviceName)) {
     wand2.name = "Wand_2 (" + deviceName + ")";
     console.log("Found wand2 with name", deviceName);
 
-    noble.stopScanning();
+    if (wand1.name && wand2.name) {
+      noble.stopScanning();
+    }
 
     peripheral.connect(function (error) {
       wand2.init(peripheral, wand2.name)
@@ -130,6 +136,21 @@ noble.on('discover', function (peripheral) {
     });
   }
 });
+
+let isRequestedDeviceName = function(requestedDeviceName, deviceName) {
+  if (!requestedDeviceName) {
+    // No specific device name was requested, so accept any device name
+    return true;
+  } else if (!deviceName) {
+    // Should not accept an empty device name
+    return false;
+  }
+
+  let requested = requestedDeviceName.toLowerCase();
+  let actual = deviceName.toLowerCase();
+
+  return requested === actual;
+}
 
 process.stdin.on('keypress', (str, key) => {
   if (key.ctrl && key.name === 'c') {

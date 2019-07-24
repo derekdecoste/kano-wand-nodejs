@@ -5,6 +5,8 @@
         "PORT": 50051
     },
     "WAND": {
-        "KEEP_ALIVE_FREQUENCY_IN_SECONDS": 30
+        "KEEP_ALIVE_FREQUENCY_IN_SECONDS": 30,
+        "WAND_1_DEVICE_NAME": "",
+        "WAND_2_DEVICE_NAME": ""
     }
 }
