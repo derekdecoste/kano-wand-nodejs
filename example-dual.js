@@ -3,7 +3,7 @@ const WAND_1_LABEL = "wand1";
 const WAND_2_LABEL = "wand2";
 
 const config = require('./config.json');
-var noble = require('noble');
+var noble = require('@abandonware/noble');
 const KanoWand = require('./index')
 const kanoInfo = require('./kano_info.json');
 var grpc = require('grpc');
