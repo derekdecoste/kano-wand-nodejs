@@ -1,6 +1,8 @@
 # Magic Photo
 (and other potential magical pi projects)
 
+## Use a wand to start and stop a Magical Photograph (it's a video)
+
 ## Setup
 (not completed, links that I will build setup from below)
 
