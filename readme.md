@@ -20,7 +20,7 @@ Starts video stored at "./video/current-video/video.mp4" paused at 1 ("--start=+
 ## To do
 
 - convert all noble operations from using callbacks to Promises
-- 
+- set up logging to a file instead of console.logging since there is now a video in the way
 
 ## (below is readme from forked project)
 
