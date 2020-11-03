@@ -35,7 +35,7 @@ noble.on('discover', function (peripheral) {
     peripheral.connect(function (error) {
       wand.init(peripheral)
         .then(() => {
-          player.load("/home/pirelay/kano-wand-nodejs/video/current-video/video.mp4")
+          player.load("./video/current-video/video.mp4")
           wand.vibrate(1);
         });
     });

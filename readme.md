@@ -3,6 +3,8 @@
 
 ## Use a wand to start and stop a Magical Photograph (it's a video)
 
+Starts video stored at "./video/current-video/video.mp4" paused at 1 ("--start=+1" in magic-photo.js) second(s) once Kano wand is found. Toggles pause once spell "Locomotor" is cast.
+
 ## Setup
 (not completed, links that I will build setup from below)
 
