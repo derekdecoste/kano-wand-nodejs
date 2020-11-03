@@ -28,6 +28,7 @@
     "fit-curve": "^0.2.0",
     "google-protobuf": "^3.13.0",
     "grpc": "^1.24.3",
+    "node-mpv": "^1.5.0",
     "rxjs": "^6.6.3",
     "string-just": "0.0.2"
   }

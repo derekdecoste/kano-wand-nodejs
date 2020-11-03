@@ -13,8 +13,14 @@
 - https://github.com/node-fetch/node-fetch/issues/481
 - https://stackoverflow.com/questions/44342226/next-js-error-only-absolute-urls-are-supported
 - https://gist.github.com/joshua-gould/58e1b114a67127273eef239ec0af8989 (did not use but possible node-fetch workaround if i don't want to ping my github, mention the github hardlink in the readme)
+- install mpv on pi
 
-(below is readme from forked project)
+## To do
+
+- convert all noble operations from using callbacks to Promises
+- 
+
+## (below is readme from forked project)
 
 ## Kano Wand NodeJS
 
